@@ -4,7 +4,7 @@ import Button from '../ui/Button';
 
 export const HeroSection: React.FC = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-28 pb-16 px-4 sm:px-6 md:px-8">
+    <section id="home" className="relative min-h-screen flex items-center justify-center pt-28 pb-16 px-4 sm:px-6 md:px-8 overflow-hidden">
       {/* Home Background Image Overlay */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <img
