@@ -1,0 +1,54 @@
+/* Mufomic Gen 13 Glassmorphism & Visual Effects */
+
+.glass-panel {
+  background: rgba(18, 12, 15, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-red {
+  background: radial-gradient(135% 100% at 50% 0%, rgba(45, 10, 20, 0.8) 0%, rgba(15, 6, 10, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(225, 29, 72, 0.25);
+  box-shadow: 0 10px 30px -10px rgba(225, 29, 72, 0.2);
+}
+
+.glass-card-red:hover {
+  border-color: rgba(244, 63, 94, 0.5);
+  box-shadow: 0 15px 40px -10px rgba(244, 63, 94, 0.35);
+}
+
+.glass-card-neon {
+  background: rgba(15, 23, 15, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(132, 204, 22, 0.3);
+  box-shadow: 0 0 25px rgba(132, 204, 22, 0.15);
+}
+
+.text-grunge-red {
+  color: #f43f5e;
+  text-shadow: 0 0 12px rgba(244, 63, 94, 0.6), 2px 2px 0px rgba(0, 0, 0, 0.8);
+}
+
+.text-neon-green {
+  color: #84cc16;
+  text-shadow: 0 0 10px rgba(132, 204, 22, 0.5);
+}
+
+.glow-background {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-red {
+  background: rgba(225, 29, 72, 0.2);
+}
+
+.glow-lime {
+  background: rgba(132, 204, 22, 0.12);
+}

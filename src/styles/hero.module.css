@@ -1,0 +1,35 @@
+/* Hero Module Styles for Gen 13 Audisi Concept */
+
+.heroContainer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+}
+
+.titleMain {
+  font-family: var(--font-geist-sans), sans-serif;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.titleGrunge {
+  color: #ef4444;
+  font-weight: 900;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  transform: rotate(-1.5deg);
+  text-shadow: 3px 3px 0px #000, -1px -1px 0px #84cc16;
+}
+
+.scribbleBadge {
+  border: 2px dashed #f43f5e;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fca5a5;
+  background: rgba(153, 27, 27, 0.3);
+}

@@ -1,0 +1,26 @@
+/* RSVP Module Styles */
+
+.formContainer {
+  background: rgba(20, 10, 14, 0.85);
+  border: 1px solid rgba(225, 29, 72, 0.2);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+}
+
+.inputField {
+  width: 100%;
+  background: rgba(10, 5, 8, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.inputField:focus {
+  border-color: #f43f5e;
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2);
+}
