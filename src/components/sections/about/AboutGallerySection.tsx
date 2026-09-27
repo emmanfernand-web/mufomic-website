@@ -15,21 +15,42 @@ export const AboutGallerySection: React.FC = () => {
 
   // Photos dataset pointing to /images/about-photos/
   const photoList: PhotoItem[] = [
-    { id: '1', src: '/images/about-photos/photo1.jpg', title: 'Mufogigs Performance 1', category: 'Live Gig' },
-    { id: '2', src: '/images/about-photos/photo2.jpg', title: 'Mufomic Gathering', category: 'Community' },
-    { id: '3', src: '/images/about-photos/photo3.jpg', title: 'Band Practice Session', category: 'Rehearsal' },
-    { id: '4', src: '/images/about-photos/photo4.jpg', title: 'Acoustic Stage Showcase', category: 'Acoustic' },
-    { id: '5', src: '/images/about-photos/photo5.jpg', title: 'Crew & Sound Ops', category: 'Technical' },
-    { id: '6', src: '/images/about-photos/photo6.jpg', title: 'Gen 13 Welcoming', category: 'Event' },
-    { id: '7', src: '/images/about-photos/photo7.jpg', title: 'Vocal Ensemble Jam', category: 'Vocal' },
-    { id: '8', src: '/images/about-photos/photo8.jpg', title: 'Outdoor Music Fest', category: 'Festival' },
-    { id: '9', src: '/images/about-photos/photo9.jpg', title: 'Brass & Rhythm Stage', category: 'Orchestra' },
+    { id: '1', src: '/images/about-photos/photo1.webp', title: '', category: '' },
+    { id: '2', src: '/images/about-photos/photo2.webp', title: '', category: '' },
+    { id: '3', src: '/images/about-photos/photo3.webp', title: '', category: '' },
+    { id: '4', src: '/images/about-photos/photo4.webp', title: '', category: '' },
+    { id: '5', src: '/images/about-photos/photo5.webp', title: '', category: '' },
+    { id: '6', src: '/images/about-photos/photo6.webp', title: '', category: '' },
+    { id: '7', src: '/images/about-photos/photo7.webp', title: '', category: '' },
+    { id: '8', src: '/images/about-photos/photo8.webp', title: '', category: '' },
+    { id: '9', src: '/images/about-photos/photo9.webp', title: '', category: '' },
+    { id: '10', src: '/images/about-photos/photo10.webp', title: '', category: '' },
+    { id: '11', src: '/images/about-photos/photo11.webp', title: '', category: '' },
+    { id: '12', src: '/images/about-photos/photo12.webp', title: '', category: '' },
+    { id: '13', src: '/images/about-photos/photo13.webp', title: '', category: '' },
+    { id: '14', src: '/images/about-photos/photo14.webp', title: '', category: '' },
+    { id: '15', src: '/images/about-photos/photo15.webp', title: '', category: '' },
+    { id: '16', src: '/images/about-photos/photo16.webp', title: '', category: '' },
+    { id: '17', src: '/images/about-photos/photo17.webp', title: '', category: '' },
+    { id: '18', src: '/images/about-photos/photo18.webp', title: '', category: '' },
+    { id: '19', src: '/images/about-photos/photo19.webp', title: '', category: '' },
+    { id: '20', src: '/images/about-photos/photo20.webp', title: '', category: '' },
+    { id: '21', src: '/images/about-photos/photo21.webp', title: '', category: '' },
+    { id: '22', src: '/images/about-photos/photo22.webp', title: '', category: '' },
+    { id: '23', src: '/images/about-photos/photo23.webp', title: '', category: '' },
+    { id: '24', src: '/images/about-photos/photo24.webp', title: '', category: '' },
+    { id: '25', src: '/images/about-photos/photo25.webp', title: '', category: '' },
+    { id: '26', src: '/images/about-photos/photo26.webp', title: '', category: '' },
+    { id: '27', src: '/images/about-photos/photo27.webp', title: '', category: '' },
+    { id: '28', src: '/images/about-photos/photo28.webp', title: '', category: '' },
+    { id: '29', src: '/images/about-photos/photo29.webp', title: '', category: '' },
+    { id: '30', src: '/images/about-photos/photo30.webp', title: '', category: '' }
   ];
 
-  // Divide into 3 rows for marquee animation
-  const row1 = [...photoList.slice(0, 3), ...photoList.slice(0, 3), ...photoList.slice(0, 3)];
-  const row2 = [...photoList.slice(3, 6), ...photoList.slice(3, 6), ...photoList.slice(3, 6)];
-  const row3 = [...photoList.slice(6, 9), ...photoList.slice(6, 9), ...photoList.slice(6, 9)];
+    // Bagi 27 foto ke dalam 3 baris dengan 2 kali pengulangan (repeat)
+    const row1 = [...photoList.slice(0, 10), ...photoList.slice(0, 10)];
+    const row2 = [...photoList.slice(10, 20), ...photoList.slice(10, 20)];
+    const row3 = [...photoList.slice(20, 30), ...photoList.slice(20, 30)];
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>, title: string) => {
     // Graceful fallback SVG generator when exact photo file doesn't exist yet
