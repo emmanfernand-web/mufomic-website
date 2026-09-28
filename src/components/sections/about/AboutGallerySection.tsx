@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import Badge from '../../ui/Badge';
 
 interface PhotoItem {
@@ -47,16 +48,9 @@ export const AboutGallerySection: React.FC = () => {
     { id: '30', src: '/images/about-photos/photo30.webp', title: '', category: '' }
   ];
 
-    // Bagi 27 foto ke dalam 3 baris dengan 2 kali pengulangan (repeat)
-    const row1 = [...photoList.slice(0, 10), ...photoList.slice(0, 10)];
-    const row2 = [...photoList.slice(10, 20), ...photoList.slice(10, 20)];
-    const row3 = [...photoList.slice(20, 30), ...photoList.slice(20, 30)];
-
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>, title: string) => {
-    // Graceful fallback SVG generator when exact photo file doesn't exist yet
-    const target = e.target as HTMLImageElement;
-    target.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200"><rect width="320" height="200" fill="%2326161f"/><circle cx="160" cy="100" r="50" fill="%23c90a20" opacity="0.3"/><text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="%23f8f7f2" font-family="sans-serif" font-size="14" font-weight="bold">MUFOMIC PHOTO</text><text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" fill="%23f36416" font-family="sans-serif" font-size="11">${encodeURIComponent(title)}</text></svg>`;
-  };
+  const row1 = [...photoList.slice(0, 10), ...photoList.slice(0, 10)];
+  const row2 = [...photoList.slice(10, 20), ...photoList.slice(10, 20)];
+  const row3 = [...photoList.slice(20, 30), ...photoList.slice(20, 30)];
 
   return (
     <section id="about-gallery" className="py-16 space-y-8 overflow-hidden">
@@ -75,17 +69,20 @@ export const AboutGallerySection: React.FC = () => {
       <div className="space-y-4 pt-2">
         {/* Row 1: Moves Right */}
         <div className="relative overflow-hidden py-1">
-          <div className="animate-marquee-right gap-4 px-2">
+          <div className="animate-marquee-right gap-4 px-2 will-change-transform [transform:translateZ(0)]">
             {row1.map((photo, idx) => (
               <div
                 key={`r1-${idx}`}
                 onClick={() => setSelectedPhoto(photo)}
-                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-black/40 backdrop-blur-md cursor-pointer hover:scale-105 hover:border-[#F36416] transition-all duration-300 shadow-xl group relative"
+                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-[#181818] cursor-pointer hover:scale-105 hover:border-[#F36416] transition-all duration-300 shadow-xl group relative"
               >
-                <img
+                <Image
                   src={photo.src}
-                  alt={photo.title}
-                  onError={(e) => handleImageError(e, photo.title)}
+                  alt={photo.title || 'Mufomic Photo'}
+                  width={320}
+                  height={200}
+                  quality={75}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
@@ -99,17 +96,20 @@ export const AboutGallerySection: React.FC = () => {
 
         {/* Row 2: Moves Left */}
         <div className="relative overflow-hidden py-1">
-          <div className="animate-marquee-left gap-4 px-2">
+          <div className="animate-marquee-left gap-4 px-2 will-change-transform [transform:translateZ(0)]">
             {row2.map((photo, idx) => (
               <div
                 key={`r2-${idx}`}
                 onClick={() => setSelectedPhoto(photo)}
-                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-black/40 backdrop-blur-md cursor-pointer hover:scale-105 hover:border-[#5278A2] transition-all duration-300 shadow-xl group relative"
+                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-[#181818] cursor-pointer hover:scale-105 hover:border-[#5278A2] transition-all duration-300 shadow-xl group relative"
               >
-                <img
+                <Image
                   src={photo.src}
-                  alt={photo.title}
-                  onError={(e) => handleImageError(e, photo.title)}
+                  alt={photo.title || 'Mufomic Photo'}
+                  width={320}
+                  height={200}
+                  quality={75}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
@@ -123,17 +123,20 @@ export const AboutGallerySection: React.FC = () => {
 
         {/* Row 3: Moves Right */}
         <div className="relative overflow-hidden py-1">
-          <div className="animate-marquee-right gap-4 px-2">
+          <div className="animate-marquee-right gap-4 px-2 will-change-transform [transform:translateZ(0)]">
             {row3.map((photo, idx) => (
               <div
                 key={`r3-${idx}`}
                 onClick={() => setSelectedPhoto(photo)}
-                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-black/40 backdrop-blur-md cursor-pointer hover:scale-105 hover:border-[#C90A20] transition-all duration-300 shadow-xl group relative"
+                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-[#181818] cursor-pointer hover:scale-105 hover:border-[#C90A20] transition-all duration-300 shadow-xl group relative"
               >
-                <img
+                <Image
                   src={photo.src}
-                  alt={photo.title}
-                  onError={(e) => handleImageError(e, photo.title)}
+                  alt={photo.title || 'Mufomic Photo'}
+                  width={320}
+                  height={200}
+                  quality={75}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
@@ -150,7 +153,7 @@ export const AboutGallerySection: React.FC = () => {
       {selectedPhoto && (
         <div
           onClick={() => setSelectedPhoto(null)}
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex items-center justify-center p-4 transition-all"
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 transition-all"
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -169,12 +172,13 @@ export const AboutGallerySection: React.FC = () => {
               </button>
             </div>
 
-            <div className="w-full max-h-[70vh] rounded-2xl overflow-hidden bg-black flex items-center justify-center">
-              <img
+            <div className="w-full max-h-[70vh] rounded-2xl overflow-hidden bg-black flex items-center justify-center relative h-[60vh]">
+              <Image
                 src={selectedPhoto.src}
-                alt={selectedPhoto.title}
-                onError={(e) => handleImageError(e, selectedPhoto.title)}
-                className="w-full h-full object-contain max-h-[70vh]"
+                alt={selectedPhoto.title || 'Mufomic Photo Detail'}
+                fill
+                quality={90}
+                className="object-contain"
               />
             </div>
           </div>
