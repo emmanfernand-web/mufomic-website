@@ -62,7 +62,7 @@ export const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({
 
               {/* Tombol Selengkapnya HANYA MUNCUL jika showButton = true */}
               {showButton && (
-                <div className="pt-2">
+                <div className="pt-2 hidden lg:block">
                   <Button variant="gradient-2" size="md" href="/about">
                     Selengkapnya →
                   </Button>
@@ -72,12 +72,21 @@ export const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({
             </div>
 
             {/* Right Column: Logo */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end items-center">
+            <div className="lg:col-span-5 flex flex-col items-center lg:items-end gap-8">
               <img
                 src="/images/logo/logo-mufomic-hero.webp"
                 alt="MUFOMIC Logo"
                 className="w-3/4 sm:w-2/3 lg:w-full max-w-xs sm:max-w-sm h-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)] transition-transform duration-500 hover:scale-105"
               />
+
+              {/* Tombol khusus mobile: di tengah, di bawah logo */}
+              {showButton && (
+                <div className="lg:hidden">
+                  <Button variant="gradient-2" size="md" href="/about">
+                    Selengkapnya →
+                  </Button>
+                </div>
+              )}
             </div>
 
           </div>
