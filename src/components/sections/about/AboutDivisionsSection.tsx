@@ -320,6 +320,15 @@ export const AboutDivisionsSection: React.FC = () => {
     }
   };
 
+  const creativeLabels: Record<string, string> = {
+  pr: 'PR',
+  visual: 'Visual',
+  documentation: 'Documentation',
+  'band-manager': 'Band Manager',
+  event: 'Acara',
+  'sound-engineer': 'Sound Engineer',
+};
+
   return (
     <section id="about-divisions" className="relative py-20 px-4 sm:px-6 md:px-8 overflow-hidden">
       {/* Background Layer */}
@@ -443,7 +452,7 @@ export const AboutDivisionsSection: React.FC = () => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-5 gap-2 sm:gap-4 items-center justify-items-center">
+              <div className="grid grid-cols-5 gap-1.5 sm:gap-4 items-start justify-items-center py-2">
                 {bandRoles.map((role) => {
                   const isSelected = currentRole.id === role.id;
                   return (
@@ -499,19 +508,19 @@ export const AboutDivisionsSection: React.FC = () => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-6 gap-2 sm:gap-4 items-center justify-items-center">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-x-2 gap-y-6 sm:gap-4 items-start justify-items-center py-2">
                 {creativeRoles.map((role) => {
                   const isSelected = currentRole.id === role.id;
                   return (
                     <button
                       key={role.id}
                       onClick={() => handleSelectRole(role.id)}
-                      className="flex flex-col items-center gap-1.5 group focus:outline-none w-full"
+                      className="flex flex-col items-center gap-2 group focus:outline-none w-full"
                     >
                       <div
-                        className={`w-13 h-13 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 relative overflow-hidden shadow-lg ${
+                        className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 relative overflow-hidden shadow-lg ${
                           isSelected
-                            ? 'border-[#F36416] ring-4 ring-[#F36416]/60 scale-110 bg-[#F36416]/30 shadow-[0_0_20px_rgba(243,100,22,0.6)]'
+                            ? 'border-[#F36416] ring-4 ring-[#F36416]/60 scale-105 bg-[#F36416]/30 shadow-[0_0_20px_rgba(243,100,22,0.6)]'
                             : 'border-white/20 bg-white/5 hover:border-[#F36416]/60 hover:bg-white/10 hover:scale-105'
                         }`}
                       >
@@ -532,11 +541,11 @@ export const AboutDivisionsSection: React.FC = () => {
                         </div>
                       </div>
                       <span
-                        className={`text-[9px] sm:text-xs font-bold text-center transition-colors truncate max-w-[55px] sm:max-w-none ${
+                        className={`text-[11px] sm:text-xs font-bold text-center leading-tight transition-colors ${
                           isSelected ? 'text-[#F36416]' : 'text-[#F8F7F2]/60 group-hover:text-[#F8F7F2]'
                         }`}
                       >
-                        {role.title.split(' ')[0]}
+                        {creativeLabels[role.id] ?? role.title}
                       </span>
                     </button>
                   );
