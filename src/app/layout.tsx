@@ -4,9 +4,13 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "MUFOMIC GEN 13 | Regulasi Audisi Online & Music Community UMN",
+  title: "MUFOMIC GEN 13",
   description: "Official Landing Page MUFOMIC Gen 13 Universitas Multimedia Nusantara. Informasi regulasi audisi online, RSVP Mufogigs, dan kegiatan musik kampus UMN.",
   keywords: ["Mufomic", "Mufomic Gen 13", "Audisi Online", "Orkes UMN", "UKM Musik UMN", "Mufogigs"],
+  icons: {
+    icon: '/images/logo/logo-mufomic-navbar.webp', // Tautan ke file gambar logo
+  },
+  
 };
 
 export default function RootLayout({
