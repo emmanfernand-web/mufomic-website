@@ -62,9 +62,11 @@ export const HeroSection: React.FC = () => {
                 variant="gradient-1"
                 size="lg"
                 href="/rsvp"
-                className="w-full"
+                className="w-full relative overflow-hidden group shadow-[0_0_25px_rgba(243,100,22,0.6)] hover:shadow-[0_0_35px_rgba(243,100,22,0.9)] hover:scale-105 transition-all duration-300"
               >
-                RSVP Mufogigs
+                {/* Light Sweep / Shimmer Overlay */}
+                <span className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer pointer-events-none" />
+                <span className="relative z-10 font-bold">Mufogigs Vol. 10</span>
               </Button>
               <Button
                 variant="glass-pill"

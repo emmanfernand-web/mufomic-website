@@ -5,9 +5,10 @@ import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 
 export const RsvpSection: React.FC = () => {
-  // Config for Google Form URL redirection
+  // Config for Google Form & Google Maps URL
   const gformUrl = "https://forms.gle/mufomic-rsvp"; 
-  const isTicketAvailable = false; // Set to false since tickets are Coming Soon
+  const googleMapsUrl = "https://maps.app.goo.gl/KXsWES47wX4h3KqL9"; // <-- Masukkan link Google Maps Bagi Kopi Jombang di sini
+  const isTicketAvailable = false; // Set to false for Coming Soon / True when RSVP opens
 
   return (
     <section id="rsvp" className="relative min-h-[calc(100vh-80px)] flex items-center justify-center pt-28 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 md:px-8 overflow-hidden">
@@ -28,75 +29,102 @@ export const RsvpSection: React.FC = () => {
 
       {/* Aesthetic Glass Card Container */}
       <div className="w-full max-w-3xl mx-auto text-center relative z-10">
-        <div className="glass-inspo-card p-8 sm:p-12 md:p-14 border border-white/20 rounded-3xl shadow-2xl space-y-6 backdrop-blur-3xl bg-white/[0.08]">
+        <div className="glass-inspo-card p-6 sm:p-10 md:p-12 border border-white/20 rounded-3xl shadow-2xl space-y-6 backdrop-blur-3xl bg-white/[0.08]">
           
-          {/* Status Badge */}
+          {/* Status Badge / Eyebrow Header */}
           <div className="flex justify-center">
             <Badge variant="orange">
-              {isTicketAvailable ? 'RSVP OPEN' : 'COMING SOON'}
+              {isTicketAvailable ? 'RSVP OPEN' : 'UPCOMING EVENT'}
             </Badge>
           </div>
 
           {/* Title & Description */}
           <div className="space-y-3 max-w-xl mx-auto">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#F8F7F2] tracking-tight">
-              RSVP Mufogigs
+              Mufogigs Vol. 10
             </h2>
             <p className="text-[#F8F7F2]/80 text-sm sm:text-base leading-relaxed">
-              {isTicketAvailable
-                ? 'Pesan tiket masuk gratis kamu untuk menyaksikan panggung kreasi dan penampilan musik dari komunitas MUFOMIC UMN.'
-                : 'Reservasi tiket Mufogigs Showcase belum dibuka. Dapatkan informasi terbaru mengenai tanggal rilis tiket melalui Instagram resmi kami.'}
+              Get ready to warm up your night with an unforgettable music experience! 🎸✨
+            </p>
+            <p className="text-[#F8F7F2]/80 text-sm sm:text-base leading-relaxed">              
+              Featuring J.O.Y!, INDIGOS, and ECHOVEIL, plus special performances from Nusa Surf Club, Tatlo, and The Sabili‼️
             </p>
           </div>
 
-          {/* Action Button Section (Symmetrical & Balanced) */}
-          <div className="pt-4 flex flex-col sm:flex-row items-stretch justify-center gap-4 max-w-xl mx-auto">
+          {/* Flyer Image Container */}
+          <div className="flex justify-center my-6">
+            <div className="relative max-w-xs sm:max-w-sm rounded-2xl overflow-hidden border border-white/20 shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
+              <img
+                src="/images/mufogigs/vol10.webp"
+                alt="Flyer Mufogigs Vol. 10"
+                className="w-full h-auto object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Highlighted Event Detail Card (Ukuran diperbesar dan seragam) */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-black/50 border border-white/15 max-w-xl mx-auto space-y-3 shadow-lg">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 font-bold text-base sm:text-lg text-[#F8F7F2]">
+              <span className="flex items-center gap-2">
+                <span>📅</span>
+                <span>Sabtu, 3 Oktober 2026</span>
+              </span>
+              <span className="hidden sm:inline text-white/30">•</span>
+              <span className="flex items-center gap-2">
+                <span>⏰</span>
+                <span>18.00 WIB – Selesai</span>
+              </span>
+            </div>
+            
+            <div className="pt-2 border-t border-white/10 flex items-center justify-center gap-2 text-base sm:text-lg text-[#F8F7F2] font-semibold">
+              <span className="text-[#F36416]">📍</span>
+              <span>Lokasi: <strong className="text-white">Bagi Kopi Jombang</strong></span>
+            </div>
+          </div>
+
+          {/* Action Button Section */}
+          <div className="pt-2 flex flex-col sm:flex-row items-stretch justify-center gap-4 max-w-xl mx-auto">
+            {/* Button Direct to Google Maps */}
+            <Button
+              variant="glass-pill"
+              size="lg"
+              href={googleMapsUrl}
+              isExternal
+              className="flex-1 w-full sm:w-1/2 min-h-[56px] py-3.5 px-5 flex items-center justify-center gap-2.5 text-center leading-snug"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 flex-shrink-0 text-[#F36416]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span className="font-bold text-sm sm:text-base">Petunjuk Lokasi (Maps)</span>
+            </Button>
+
+            {/* RSVP / Updates Button */}
             {isTicketAvailable ? (
               <Button
                 variant="gradient-1"
                 size="lg"
                 href={gformUrl}
                 isExternal
-                className="w-full sm:w-auto"
+                className="flex-1 w-full sm:w-1/2 min-h-[56px] py-3.5 px-5 flex items-center justify-center text-center"
               >
-                Isi Form RSVP (Google Form) ↗
+                <span className="font-bold text-sm sm:text-base">Isi Form RSVP ↗</span>
               </Button>
             ) : (
-              <>
-                {/* Disabled RSVP Button */}
-                <Button
-                  variant="glass-pill"
-                  size="lg"
-                  disabled
-                  className="flex-1 w-full sm:w-1/2 min-h-[60px] py-3.5 px-5 opacity-70 cursor-not-allowed flex items-center justify-center gap-2.5 text-center leading-snug whitespace-nowrap"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 flex-shrink-0 fill-current text-[#F8F7F2]"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />
-                  </svg>
-                  <span className="font-bold text-sm sm:text-base">RSVP Coming Soon</span>
-                </Button>
-
-                {/* Instagram Button */}
-                <Button
-                  variant="gradient-2"
-                  size="lg"
-                  href="https://instagram.com/mufomic"
-                  isExternal
-                  className="flex-1 w-full sm:w-1/2 min-h-[60px] py-3.5 px-5 flex items-center justify-center text-center leading-snug"
-                >
-                  <span className="font-bold text-sm sm:text-base">Update Instagram @mufomic</span>
-                </Button>
-              </>
+              <Button
+                variant="gradient-2"
+                size="lg"
+                href="https://instagram.com/mufomic"
+                isExternal
+                className="flex-1 w-full sm:w-1/2 min-h-[56px] py-3.5 px-5 flex items-center justify-center text-center leading-snug"
+              >
+                <span className="font-bold text-sm sm:text-base">Instagram @mufomic</span>
+              </Button>
             )}
-          </div>
-
-          {/* Footer note */}
-          <div className="pt-2 text-xs font-mono text-[#F8F7F2]/50">
-            
           </div>
 
         </div>

@@ -10,9 +10,9 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="fixed top-5 left-1/2 -translate-x-1/2 w-11/12 max-w-5xl z-50 transition-all">
-      <nav className="bg-[#1C1C1C]/80 backdrop-blur-2xl px-6 py-3 rounded-full flex items-center justify-between border border-white/15 shadow-2xl">
-        {/* Brand Logo (Only logo image without text as requested) */}
-        <Link href="/" className="flex items-center group">
+      <nav className="relative bg-[#1C1C1C]/80 backdrop-blur-2xl px-6 py-3 rounded-full flex items-center justify-between border border-white/15 shadow-2xl">
+        {/* Brand Logo (Sisi Kiri) */}
+        <Link href="/" className="flex items-center group z-10">
           <img
             src="/images/logo/logo-mufomic-navbar.webp"
             alt="MUFOMIC Logo"
@@ -20,8 +20,8 @@ export const Navbar: React.FC = () => {
           />
         </Link>
 
-        {/* Desktop Navigation Links (Home, RSVP, About ONLY) */}
-        <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#F8F7F2]/80">
+        {/* Desktop Navigation Links (Presisi Tepat di Tengah Container) */}
+        <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#F8F7F2]/80 absolute left-1/2 -translate-x-1/2">
           {mainNavItems.map((item) => (
             <Link
               key={item.label}
@@ -34,10 +34,17 @@ export const Navbar: React.FC = () => {
           ))}
         </div>
 
-        {/* Action Button & Mobile Toggle */}
-        <div className="flex items-center gap-3">
-          <Button variant="gradient-1" size="sm" href="/rsvp" className="hidden sm:inline-flex">
-            RSVP Mufogigs
+        {/* Action Button & Mobile Toggle (Sisi Kanan) */}
+        <div className="flex items-center gap-3 z-10">
+          <Button
+            variant="gradient-1"
+            size="sm"
+            href="/rsvp"
+            className="hidden sm:inline-flex relative overflow-hidden group shadow-[0_0_15px_rgba(243,100,22,0.5)] hover:shadow-[0_0_25px_rgba(243,100,22,0.8)] transition-all"
+          >
+            {/* Light Sweep / Shimmer Overlay */}
+            <span className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer pointer-events-none" />
+            <span className="relative z-10 font-bold">Mufogigs Vol. 10</span>
           </Button>
 
           {/* Mobile Hamburger Button */}
@@ -76,8 +83,15 @@ export const Navbar: React.FC = () => {
             </Link>
           ))}
           <div className="pt-2 border-t border-white/10">
-            <Button variant="gradient-1" size="sm" href="/rsvp" className="w-full" onClick={() => setIsOpen(false)}>
-              RSVP Mufogigs
+            <Button
+              variant="gradient-1"
+              size="sm"
+              href="/rsvp"
+              className="w-full relative overflow-hidden group shadow-[0_0_15px_rgba(243,100,22,0.5)]"
+              onClick={() => setIsOpen(false)}
+            >
+              <span className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer pointer-events-none" />
+              <span className="relative z-10 font-bold">Mufogigs Vol. 10</span>
             </Button>
           </div>
         </div>
