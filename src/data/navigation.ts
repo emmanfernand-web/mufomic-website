@@ -2,7 +2,7 @@ import { NavItem, SocialLink } from '../types/nav';
 
 export const mainNavItems: NavItem[] = [
   { label: 'Home', href: '/' },
-  { label: 'RSVP', href: '/rsvp' },
+  { label: 'Event', href: '/rsvp' },
   { label: 'About', href: '/about' },
 ];
 

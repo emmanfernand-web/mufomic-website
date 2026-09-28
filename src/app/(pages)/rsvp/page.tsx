@@ -3,7 +3,7 @@ import RsvpSection from '../../../components/sections/RsvpSection';
 
 export default function RsvpPage() {
   return (
-    <div className="pb-20">
+    <div className="pb-0">
       <RsvpSection />
     </div>
   );
