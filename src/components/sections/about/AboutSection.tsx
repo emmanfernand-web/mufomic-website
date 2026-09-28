@@ -16,7 +16,7 @@ export const AboutSection: React.FC = () => {
       <AboutGallerySection />
 
       {/* Section 3: Divisi (Band dan Kreatif) */}
-      <AboutDivisionsSection />
+      {/* <AboutDivisionsSection /> */}
     </div>
   );
 };

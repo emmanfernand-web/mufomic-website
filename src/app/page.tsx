@@ -8,10 +8,10 @@ export default function Home() {
     <div className="space-y-0">
       <HeroSection />
       {/* On Homepage: Display ONLY Section 1 (Apa itu Mufomic) */}
+      <RsvpSection />
       <AboutIntroSection
         showButton
       />
-      <RsvpSection />
     </div>
   );
 }
