@@ -1,18 +1,26 @@
 'use client';
 
 import React from 'react';
+import Button from '../../ui/Button';
 
-export const AboutIntroSection: React.FC = () => {
+interface AboutIntroSectionProps {
+  showButton?: boolean;
+  bgImage?: string;
+}
+
+export const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({
+  showButton = false,
+  bgImage = '/images/background/home-about-bg.webp',
+}) => {
   return (
-    <section id="about-intro" className="relative min-h-[750px] flex items-center justify-center pt-32 sm:pt-36 pb-20 px-4 sm:px-6 md:px-8 overflow-hidden">
-      {/* Full-bleed Section Background Layer */}
+    <section id="about-intro" className="relative flex items-center justify-center py-28 sm:py-32 px-4 sm:px-6 md:px-8 overflow-hidden">
+      {/* Dynamic Background Layer */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <img
-          src="/images/background/home-about-bg.webp"
+          src={bgImage}
           alt="Mufomic Background"
           className="w-full h-full object-cover object-center scale-105 filter brightness-50 contrast-110"
         />
-        {/* Dark Gradient Overlay for the entire section */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1C1C1C]/70 via-[#1C1C1C]/60 to-[#1C1C1C] -z-10" />
       </div>
 
@@ -20,17 +28,14 @@ export const AboutIntroSection: React.FC = () => {
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#C90A20]/25 rounded-full blur-[140px] pointer-events-none -z-10" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#5278A2]/25 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      {/* Aesthetic Blurry Frosted Glass Card (Heya Inspo Layout) */}
+      {/* Aesthetic Blurry Frosted Glass Card */}
       <div className="w-full max-w-5xl mx-auto relative z-10">
-        <div className="glass-inspo-card p-8 sm:p-12 md:p-14 overflow-hidden border border-white/20 shadow-2xl backdrop-blur-3xl bg-white/[0.08]">
+        <div className="glass-inspo-card p-6 sm:p-10 md:p-12 overflow-hidden border border-white/20 shadow-2xl backdrop-blur-3xl bg-white/[0.08]">
           
-          {/* Grid Layout: Left (Logotype + Explanation), Right (Logo) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Left Column: Logotype Image & Explanation Text */}
-            <div className="lg:col-span-7 space-y-6">
-              
-              {/* Logotype Image Header */}
+            {/* Left Column: Text & Optional Action Button */}
+            <div className="lg:col-span-7 space-y-5">
               <div>
                 <img
                   src="/images/logo/logo-mufomic-about.png"
@@ -41,12 +46,11 @@ export const AboutIntroSection: React.FC = () => {
                       target.src = '/images/logo/about-logotype.webp';
                     }
                   }}
-                  className="h-16 sm:h-20 md:h-24 w-auto object-contain max-w-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]"
+                  className="h-14 sm:h-18 md:h-20 w-auto object-contain max-w-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]"
                 />
               </div>
 
-              {/* Explanation Text (Heya Inspo with bold highlights) */}
-              <div className="space-y-4 text-[#F8F7F2]/90 text-sm sm:text-base leading-relaxed">
+              <div className="space-y-3 text-[#F8F7F2]/90 text-sm sm:text-base leading-relaxed">
                 <p>
                   Multimedia Face of Music (Mufomic) merupakan salah satu UKM yang bergerak di bidang seni dan budaya dan memiliki format band. 
                   Salah satu visi Mufomic adalah untuk menjadi wadah bagi mahasiswa UMN yang senang bermusik, terutama di dalam band, dan menjadi wadah untuk berekspresi dan saling mengapresiasi karya satu sama lain.
@@ -55,9 +59,19 @@ export const AboutIntroSection: React.FC = () => {
                   MUFOMIC sendiri berdiri pada tahun 2013. Sejak tahun 2013, Mufomic telah membentuk lebih dari 100 band untuk bermusik baik di dalam maupun di luar kampus.
                 </p>
               </div>
+
+              {/* Tombol Selengkapnya HANYA MUNCUL jika showButton = true */}
+              {showButton && (
+                <div className="pt-2">
+                  <Button variant="gradient-2" size="md" href="/about">
+                    Selengkapnya →
+                  </Button>
+                </div>
+              )}
+
             </div>
 
-            {/* Right Column: Mufomic Logo Asset standing on the right */}
+            {/* Right Column: Logo */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end items-center">
               <img
                 src="/images/logo/logo-mufomic-hero.webp"
