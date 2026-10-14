@@ -149,36 +149,36 @@ export const AboutGallerySection: React.FC = () => {
         </div>
       </div>
 
-      {/* Lightbox Modal on Image Click */}
+      {/* Lightbox Modal on Image Click - No Blackbars */}
       {selectedPhoto && (
         <div
           onClick={() => setSelectedPhoto(null)}
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 transition-all"
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xl flex items-center justify-center p-3 sm:p-6 transition-all"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-4xl w-full bg-[#1C1C1C] border border-white/20 rounded-3xl overflow-hidden shadow-2xl space-y-4 p-4 sm:p-6"
+            className="relative max-w-5xl max-h-[92vh] glass-inspo-card p-2 sm:p-3 rounded-3xl border border-white/20 shadow-2xl flex flex-col items-center"
           >
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <div>
-                <span className="text-xs font-mono text-[#F36416] font-bold">{selectedPhoto.category}</span>
-                <h3 className="text-lg font-bold text-[#F8F7F2]">{selectedPhoto.title}</h3>
-              </div>
+            {/* Top Close Button Floating */}
+            <div className="w-full flex items-center justify-between px-3 py-1.5 border-b border-white/10 mb-2">
+              <span className="text-[11px] sm:text-xs font-mono font-bold text-[#F36416] tracking-wider uppercase">
+                Dokumentasi MUFOMIC
+              </span>
               <button
                 onClick={() => setSelectedPhoto(null)}
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-[#F8F7F2] flex items-center justify-center font-bold text-lg"
+                aria-label="Tutup"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 text-[#F8F7F2] flex items-center justify-center font-bold text-sm transition-colors cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
-            <div className="w-full max-h-[70vh] rounded-2xl overflow-hidden bg-black flex items-center justify-center relative h-[60vh]">
-              <Image
+            {/* Image snugly displayed with natural aspect ratio - Zero blackbars */}
+            <div className="relative rounded-2xl overflow-hidden flex items-center justify-center max-h-[82vh] max-w-full">
+              <img
                 src={selectedPhoto.src}
-                alt={selectedPhoto.title || 'Mufomic Photo Detail'}
-                fill
-                quality={90}
-                className="object-contain"
+                alt={selectedPhoto.title || 'Dokumentasi MUFOMIC'}
+                className="max-h-[80vh] max-w-[90vw] sm:max-w-4xl w-auto h-auto object-contain rounded-xl block shadow-2xl"
               />
             </div>
           </div>

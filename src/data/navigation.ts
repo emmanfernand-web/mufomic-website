@@ -8,5 +8,6 @@ export const mainNavItems: NavItem[] = [
 
 export const socialLinks: SocialLink[] = [
   { platform: 'Instagram', href: 'https://instagram.com/mufomic', iconName: '/images/social/instagram.svg' },
+  { platform: 'TikTok', href: 'https://tiktok.com/@mufomicc', iconName: '/images/social/tiktok.svg' }, // <-- Ganti dengan link TikTok MUFOMIC
   { platform: 'WhatsApp', href: 'https://wa.me/6287817816935', iconName: '/images/social/whatsapp.svg' },
 ];
