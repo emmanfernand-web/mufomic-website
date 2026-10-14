@@ -305,7 +305,7 @@ export const AboutDivisionsSection: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono font-bold text-[#5278A2] tracking-wider uppercase">
-                    🎵 BAND DIVISION
+                    BAND DIVISION
                   </span>
                 </div>
 
@@ -340,7 +340,7 @@ export const AboutDivisionsSection: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono font-bold text-[#F36416] tracking-wider uppercase">
-                    🎨 CREATIVE DIVISION
+                    CREATIVE DIVISION
                   </span>
                 </div>
 
