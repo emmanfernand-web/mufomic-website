@@ -151,3 +151,242 @@ body {
 .animate-shimmer {
   animation: shimmer 3s infinite;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO SECTION — Modern Interactive Enhancements
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── All @keyframes at top level (PostCSS requires this) ── */
+
+@keyframes hero-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-content-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes hero-logo-in {
+  from { opacity: 0; transform: scale(0.88) translateX(-20px); }
+  to   { opacity: 1; transform: scale(1) translateX(0); }
+}
+
+@keyframes hero-logo-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-9px) rotate(0.6deg); }
+  66%       { transform: translateY(-4px) rotate(-0.4deg); }
+}
+
+@keyframes hero-ring-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.94); }
+  50%       { opacity: 0.55; transform: scale(1.06); }
+}
+
+@keyframes hero-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes hero-particle-float {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  40%  { transform: translateY(-18px) rotate(8deg); }
+  70%  { transform: translateY(-10px) rotate(-4deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes hero-wave {
+  0%, 100% { height: 4px; }
+  50%       { height: 24px; }
+}
+
+@keyframes hero-orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(40px, -25px) scale(1.05); }
+  66%       { transform: translate(-25px, 30px) scale(0.96); }
+}
+
+@keyframes hero-scan {
+  0%   { top: 15%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 85%; opacity: 0; }
+}
+
+@keyframes hero-chevron-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+/* Scroll-driven parallax keyframe (used only when @supports passes) */
+@keyframes hero-parallax {
+  from { transform: scale(1.08) translateY(0px); }
+  to   { transform: scale(1.08) translateY(80px); }
+}
+
+/* ── Section entrance ── */
+.hero-section {
+  animation: hero-fade-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Content grid entrance ── */
+.hero-content { animation: hero-content-in 0.5s ease 0.1s both; }
+
+/* ── Background scroll-driven parallax (Chrome/Edge 115+, Safari 26+) ── */
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-bg-img {
+      animation: hero-parallax linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* ── Staggered content entrance ── */
+.hero-badge-row { animation: hero-slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+.hero-headline  { animation: hero-slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both; }
+.hero-desc      { animation: hero-slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.40s both; }
+.hero-stats     { animation: hero-slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.52s both; }
+.hero-ctas      { animation: hero-slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.62s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-section,
+  .hero-content,
+  .hero-badge-row,
+  .hero-headline,
+  .hero-desc,
+  .hero-stats,
+  .hero-ctas { animation: none; }
+}
+
+/* ── Logo entrance + gentle float ── */
+.hero-logo {
+  animation:
+    hero-logo-in    0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both,
+    hero-logo-float 7s  ease-in-out 1s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-logo { animation: none; }
+}
+
+/* ── Pulsing glow ring behind logo ── */
+.hero-logo-ring {
+  background: radial-gradient(circle, rgba(201,10,32,0.25) 0%, rgba(82,120,162,0.18) 50%, transparent 70%);
+  animation: hero-ring-pulse 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-logo-ring { animation: none; }
+}
+
+/* ── Animated gradient text ── */
+.hero-gradient-text {
+  background: linear-gradient(90deg, #5278A2, #C90A20, #F36416, #C90A20, #5278A2);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hero-gradient-shift 6s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-gradient-text {
+    animation: none;
+    background: linear-gradient(90deg, #5278A2, #C90A20, #F36416);
+    background-size: 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+/* ── Mouse-spotlight on glass card ── */
+.hero-glass-card {
+  --mx: 50%;
+  --my: 50%;
+}
+
+.hero-glass-card:hover .hero-spotlight {
+  opacity: 1;
+}
+
+.hero-spotlight {
+  background: radial-gradient(
+    240px circle at var(--mx) var(--my),
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 70%
+  );
+}
+
+/* ── Floating music-note particles ── */
+/* Each particle gets an explicit class from TSX to avoid var() in animation timing */
+.hero-particle-1 { animation: hero-particle-float 7s  ease-in-out 0.0s  infinite; }
+.hero-particle-2 { animation: hero-particle-float 9s  ease-in-out 1.4s  infinite; }
+.hero-particle-3 { animation: hero-particle-float 8s  ease-in-out 0.7s  infinite; }
+.hero-particle-4 { animation: hero-particle-float 10s ease-in-out 2.1s  infinite; }
+.hero-particle-5 { animation: hero-particle-float 6s  ease-in-out 3.0s  infinite; }
+.hero-particle-6 { animation: hero-particle-float 11s ease-in-out 1.8s  infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-particle-1,
+  .hero-particle-2,
+  .hero-particle-3,
+  .hero-particle-4,
+  .hero-particle-5,
+  .hero-particle-6 { animation: none; }
+}
+
+/* ── Animated waveform bars (explicit nth-child — no var() in timing) ── */
+.hero-wave-bar {
+  background: linear-gradient(to top, #C90A20, #F36416);
+  height: 6px;
+  transform-origin: bottom;
+}
+
+.hero-wave-bar:nth-child(1) { animation: hero-wave 0.63s ease-in-out 0.07s infinite alternate; }
+.hero-wave-bar:nth-child(2) { animation: hero-wave 0.71s ease-in-out 0.14s infinite alternate; }
+.hero-wave-bar:nth-child(3) { animation: hero-wave 0.79s ease-in-out 0.21s infinite alternate; }
+.hero-wave-bar:nth-child(4) { animation: hero-wave 0.87s ease-in-out 0.28s infinite alternate; }
+.hero-wave-bar:nth-child(5) { animation: hero-wave 0.95s ease-in-out 0.35s infinite alternate; }
+.hero-wave-bar:nth-child(6) { animation: hero-wave 1.03s ease-in-out 0.42s infinite alternate; }
+.hero-wave-bar:nth-child(7) { animation: hero-wave 1.11s ease-in-out 0.49s infinite alternate; }
+.hero-wave-bar:nth-child(8) { animation: hero-wave 1.19s ease-in-out 0.56s infinite alternate; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-wave-bar { animation: none; height: 8px; }
+}
+
+/* ── Ambient orb slow drift ── */
+.hero-orb-red    { animation: hero-orb-drift 18s ease-in-out infinite; }
+.hero-orb-blue   { animation: hero-orb-drift 22s ease-in-out infinite reverse; }
+.hero-orb-orange { animation: hero-orb-drift 14s ease-in-out 3s infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb-red,
+  .hero-orb-blue,
+  .hero-orb-orange { animation: none; }
+}
+
+/* ── Horizontal scan line drift ── */
+.hero-scan-line {
+  animation: hero-scan 12s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scan-line { animation: none; display: none; }
+}
+
+/* ── Scroll-cue chevron bounce ── */
+.hero-scroll-cue { animation: hero-chevron-bounce 2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-cue { animation: none; }
+}
