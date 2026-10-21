@@ -5,6 +5,8 @@ import Button from '../../ui/Button';
 interface AboutIntroSectionProps {
   showButton?: boolean;
   bgImage?: string;
+  /** Render the logotype as the page's <h1> (on /about); defaults to a plain block */
+  asPageHeading?: boolean;
 }
 
 /* Three taped snapshots that fan out on hover */
@@ -23,7 +25,9 @@ const FACTS = [
 export const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({
   showButton = false,
   bgImage = '/images/background/home-about-bg.webp',
+  asPageHeading = false,
 }) => {
+  const Heading = asPageHeading ? 'h1' : 'div';
   return (
     <section id="about-intro" className="relative py-24 sm:py-32 px-4 sm:px-6 md:px-8 overflow-hidden">
       {/* ── Background ── */}
@@ -46,12 +50,14 @@ export const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({
           <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#F36416]">
             {'//'} Tentang Kami
           </p>
-          <img
-            src="/images/logo/logo-mufomic-about.png"
-            alt="MUFOMIC — Multimedia Face of Music"
-            loading="lazy"
-            className="mt-5 h-16 sm:h-20 md:h-24 w-auto object-contain max-w-full"
-          />
+          <Heading className="mt-5">
+            <img
+              src="/images/logo/logo-mufomic-about.png"
+              alt="MUFOMIC — Multimedia Face of Music"
+              loading={asPageHeading ? 'eager' : 'lazy'}
+              className="h-16 sm:h-20 md:h-24 w-auto object-contain max-w-full"
+            />
+          </Heading>
 
           <div className="mt-8 space-y-4 text-[#F8F7F2]/75 text-sm sm:text-base leading-relaxed max-w-xl">
             <p className="about-dropcap">
