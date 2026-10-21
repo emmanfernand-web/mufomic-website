@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect, useState, useCallback, useSyncExternalStore } from 'react';
+import Button from '../ui/Button';
 
 const STATS = [
   { value: '10+', label: 'Tahun Berkarya' },
@@ -209,23 +210,8 @@ export const HeroSection: React.FC = () => {
           </p>
 
           <div className="hero-in hero-in-6 mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
-            <a
-              href="/rsvp"
-              className="hero-cta group relative inline-flex items-center gap-3 bg-[#C90A20] text-[#F8F7F2] font-mono font-bold uppercase text-xs sm:text-sm tracking-[0.15em] px-6 py-4 transition-transform duration-300 hover:-translate-y-1"
-            >
-              <span>Mufogigs Vol. 10</span>
-              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path d="M2 8h11M9 4l4 4-4 4" strokeLinecap="square" />
-              </svg>
-            </a>
-            <a
-              href="/about"
-              className="group relative font-mono font-bold uppercase text-xs sm:text-sm tracking-[0.15em] text-[#F8F7F2] py-2"
-            >
-              Tentang Mufomic
-              <span className="absolute left-0 bottom-0 h-px w-full bg-[#F8F7F2]/40" />
-              <span className="absolute left-0 bottom-0 h-px w-full bg-[#F36416] origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
-            </a>
+            <Button href="/rsvp" arrow>Mufogigs Vol. 10</Button>
+            <Button href="/about" variant="link">Tentang Mufomic</Button>
           </div>
 
           <dl className="hero-in hero-in-7 mt-10 grid grid-cols-3 max-w-lg border-t border-[#F8F7F2]/15">

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { mainNavItems, socialLinks } from '../../data/navigation';
+import Button from '../ui/Button';
 
 export const Footer: React.FC = () => {
   return (
@@ -23,13 +24,7 @@ export const Footer: React.FC = () => {
             <p className="mt-6 max-w-sm text-sm text-[#F8F7F2]/60 leading-relaxed">
               UKM musik Universitas Multimedia Nusantara. Wadah bagi mahasiswa UMN untuk bermusik, berekspresi, dan saling mengapresiasi karya.
             </p>
-            <Link
-              href="/rsvp"
-              className="hero-cta group mt-8 inline-flex items-center gap-3 bg-[#C90A20] text-[#F8F7F2] font-mono font-bold uppercase text-xs tracking-[0.15em] px-5 py-3.5 transition-transform duration-300 hover:-translate-y-1"
-            >
-              Mufogigs Vol. 10
-              <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
-            </Link>
+            <Button href="/rsvp" arrow className="mt-8">Mufogigs Vol. 10</Button>
           </div>
 
           {/* Navigation */}

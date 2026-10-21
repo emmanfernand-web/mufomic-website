@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Button from '../../ui/Button';
 
 interface AboutIntroSectionProps {
   showButton?: boolean;
@@ -73,15 +74,7 @@ export const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({
           </dl>
 
           {showButton && (
-            <a
-              href="/about"
-              className="hero-cta group mt-10 inline-flex items-center gap-3 bg-[#C90A20] text-[#F8F7F2] font-mono font-bold uppercase text-xs sm:text-sm tracking-[0.15em] px-6 py-4 transition-transform duration-300 hover:-translate-y-1"
-            >
-              <span>Selengkapnya</span>
-              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path d="M2 8h11M9 4l4 4-4 4" strokeLinecap="square" />
-              </svg>
-            </a>
+            <Button href="/about" arrow className="mt-10">Selengkapnya</Button>
           )}
         </div>
 

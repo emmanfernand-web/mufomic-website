@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { mainNavItems, socialLinks } from '../../data/navigation';
+import Button from '../ui/Button';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -91,16 +92,15 @@ export const Navbar: React.FC = () => {
 
           {/* CTA + mobile toggle */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/rsvp"
-              className="hero-cta group hidden sm:inline-flex items-center gap-2.5 bg-[#C90A20] text-[#F8F7F2] font-mono font-bold uppercase text-[11px] tracking-[0.15em] px-4 py-2.5 transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              <span className="relative flex w-2 h-2" aria-hidden="true">
-                <span className="absolute inset-0 rounded-full bg-[#F8F7F2] animate-ping opacity-60" />
-                <span className="relative w-2 h-2 rounded-full bg-[#F8F7F2]" />
-              </span>
-              Mufogigs Vol. 10
-            </Link>
+            <div className="hidden sm:block">
+              <Button href="/rsvp" size="sm">
+                <span className="relative flex w-2 h-2" aria-hidden="true">
+                  <span className="absolute inset-0 rounded-full bg-[#F8F7F2] animate-ping opacity-60" />
+                  <span className="relative w-2 h-2 rounded-full bg-[#F8F7F2]" />
+                </span>
+                Mufogigs Vol. 10
+              </Button>
+            </div>
 
             <button
               type="button"
@@ -151,15 +151,15 @@ export const Navbar: React.FC = () => {
           })}
         </ul>
 
-        <Link
+        <Button
           href="/rsvp"
+          arrow
           onClick={() => setIsOpen(false)}
-          className="nav-menu-item hero-cta relative mt-8 flex items-center justify-between bg-[#C90A20] text-[#F8F7F2] font-mono font-bold uppercase text-sm tracking-[0.15em] px-5 py-4"
+          className="nav-menu-item mt-8 w-full justify-between!"
           style={{ '--i': mainNavItems.length + 1 } as React.CSSProperties}
         >
-          <span>Mufogigs Vol. 10</span>
-          <span aria-hidden="true">→</span>
-        </Link>
+          Mufogigs Vol. 10
+        </Button>
 
         <div className="nav-menu-item relative mt-auto pt-8" style={{ '--i': mainNavItems.length + 2 } as React.CSSProperties}>
           <div className="flex flex-wrap gap-2">
