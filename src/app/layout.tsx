@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
+import { Anton, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+
+const anton = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-anton",
+});
+
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
+});
 
 export const metadata: Metadata = {
   title: "MUFOMIC",
@@ -21,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className="h-full antialiased scroll-smooth"
+      className={`${anton.variable} ${spaceMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-[#080306] text-slate-100 selection:bg-rose-600 selection:text-white relative overflow-x-hidden">
         <Navbar />

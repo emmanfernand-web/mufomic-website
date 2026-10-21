@@ -1,189 +1,145 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Badge from '../../ui/Badge';
 
-interface PhotoItem {
-  id: string;
-  src: string;
-  title: string;
-  category: string;
-}
+// Photos dataset pointing to /images/about-photos/
+const PHOTOS = Array.from({ length: 30 }, (_, i) => ({
+  src: `/images/about-photos/photo${i + 1}.webp`,
+  frame: String(i + 1).padStart(2, '0'),
+}));
+
+/* Each strip renders its photos twice so the marquee can loop seamlessly */
+const STRIPS = [
+  { photos: PHOTOS.slice(0, 15), offset: 0, direction: 'animate-marquee-left', tilt: '-rotate-[1.2deg]' },
+  { photos: PHOTOS.slice(15), offset: 15, direction: 'animate-marquee-right', tilt: 'rotate-[1deg]' },
+];
 
 export const AboutGallerySection: React.FC = () => {
-  const [selectedPhoto, setSelectedPhoto] = useState<PhotoItem | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  // Photos dataset pointing to /images/about-photos/
-  const photoList: PhotoItem[] = [
-    { id: '1', src: '/images/about-photos/photo1.webp', title: '', category: '' },
-    { id: '2', src: '/images/about-photos/photo2.webp', title: '', category: '' },
-    { id: '3', src: '/images/about-photos/photo3.webp', title: '', category: '' },
-    { id: '4', src: '/images/about-photos/photo4.webp', title: '', category: '' },
-    { id: '5', src: '/images/about-photos/photo5.webp', title: '', category: '' },
-    { id: '6', src: '/images/about-photos/photo6.webp', title: '', category: '' },
-    { id: '7', src: '/images/about-photos/photo7.webp', title: '', category: '' },
-    { id: '8', src: '/images/about-photos/photo8.webp', title: '', category: '' },
-    { id: '9', src: '/images/about-photos/photo9.webp', title: '', category: '' },
-    { id: '10', src: '/images/about-photos/photo10.webp', title: '', category: '' },
-    { id: '11', src: '/images/about-photos/photo11.webp', title: '', category: '' },
-    { id: '12', src: '/images/about-photos/photo12.webp', title: '', category: '' },
-    { id: '13', src: '/images/about-photos/photo13.webp', title: '', category: '' },
-    { id: '14', src: '/images/about-photos/photo14.webp', title: '', category: '' },
-    { id: '15', src: '/images/about-photos/photo15.webp', title: '', category: '' },
-    { id: '16', src: '/images/about-photos/photo16.webp', title: '', category: '' },
-    { id: '17', src: '/images/about-photos/photo17.webp', title: '', category: '' },
-    { id: '18', src: '/images/about-photos/photo18.webp', title: '', category: '' },
-    { id: '19', src: '/images/about-photos/photo19.webp', title: '', category: '' },
-    { id: '20', src: '/images/about-photos/photo20.webp', title: '', category: '' },
-    { id: '21', src: '/images/about-photos/photo21.webp', title: '', category: '' },
-    { id: '22', src: '/images/about-photos/photo22.webp', title: '', category: '' },
-    { id: '23', src: '/images/about-photos/photo23.webp', title: '', category: '' },
-    { id: '24', src: '/images/about-photos/photo24.webp', title: '', category: '' },
-    { id: '25', src: '/images/about-photos/photo25.webp', title: '', category: '' },
-    { id: '26', src: '/images/about-photos/photo26.webp', title: '', category: '' },
-    { id: '27', src: '/images/about-photos/photo27.webp', title: '', category: '' },
-    { id: '28', src: '/images/about-photos/photo28.webp', title: '', category: '' },
-    { id: '29', src: '/images/about-photos/photo29.webp', title: '', category: '' },
-    { id: '30', src: '/images/about-photos/photo30.webp', title: '', category: '' }
-  ];
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (selected !== null && !dialog.open) dialog.showModal();
+    if (selected === null && dialog.open) dialog.close();
+  }, [selected]);
 
-  const row1 = [...photoList.slice(0, 10), ...photoList.slice(0, 10)];
-  const row2 = [...photoList.slice(10, 20), ...photoList.slice(10, 20)];
-  const row3 = [...photoList.slice(20, 30), ...photoList.slice(20, 30)];
+  const step = (dir: 1 | -1) =>
+    setSelected((i) => (i === null ? i : (i + dir + PHOTOS.length) % PHOTOS.length));
 
   return (
-    <section id="about-gallery" className="py-16 space-y-8 overflow-hidden">
-      {/* Header Section */}
-      <div className="text-center max-w-3xl mx-auto space-y-3 px-4">
-        <Badge variant="inspo">DOKUMENTASI & GALERI</Badge>
-        <h2 className="text-3xl sm:text-4xl font-black text-[#F8F7F2] tracking-tight">
-          Dokumentasi <span className="text-[#C90A20]">MUFOMIC</span>
-        </h2>
-        <p className="text-[#F8F7F2]/70 text-xs sm:text-sm">
-          Aktivitas, pertunjukan live, latihan, dan momen kebersamaan anggota MUFOMIC.
-        </p>
-      </div>
+    <section id="about-gallery" className="relative py-24 sm:py-28 overflow-hidden">
+      <div className="grain-overlay absolute inset-0 -z-10 pointer-events-none" aria-hidden="true" />
 
-      {/* Marquee Photo Rows */}
-      <div className="space-y-4 pt-2">
-        {/* Row 1: Moves Right */}
-        <div className="relative overflow-hidden py-1">
-          <div className="animate-marquee-right gap-4 px-2 will-change-transform [transform:translateZ(0)]">
-            {row1.map((photo, idx) => (
-              <div
-                key={`r1-${idx}`}
-                onClick={() => setSelectedPhoto(photo)}
-                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-[#181818] cursor-pointer hover:scale-105 hover:border-[#F36416] transition-all duration-300 shadow-xl group relative"
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.title || 'Mufomic Photo'}
-                  width={320}
-                  height={200}
-                  quality={75}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
-                  <span className="text-[10px] font-mono text-[#F36416] uppercase font-bold">{photo.category}</span>
-                  <span className="text-xs font-bold text-[#F8F7F2]">{photo.title}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* ── Header ── */}
+      <header className="event-reveal max-w-6xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#F36416]">
+            {'//'} Dokumentasi & Galeri
+          </p>
+          <h2 className="mt-3 font-display uppercase leading-[0.85] text-[#F8F7F2] text-[clamp(3rem,10vw,6.5rem)]">
+            Dokumentasi
+            <span className="block text-outline">Mufomic</span>
+          </h2>
         </div>
+      </header>
 
-        {/* Row 2: Moves Left */}
-        <div className="relative overflow-hidden py-1">
-          <div className="animate-marquee-left gap-4 px-2 will-change-transform [transform:translateZ(0)]">
-            {row2.map((photo, idx) => (
-              <div
-                key={`r2-${idx}`}
-                onClick={() => setSelectedPhoto(photo)}
-                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-[#181818] cursor-pointer hover:scale-105 hover:border-[#5278A2] transition-all duration-300 shadow-xl group relative"
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.title || 'Mufomic Photo'}
-                  width={320}
-                  height={200}
-                  quality={75}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
-                  <span className="text-[10px] font-mono text-[#5278A2] uppercase font-bold">{photo.category}</span>
-                  <span className="text-xs font-bold text-[#F8F7F2]">{photo.title}</span>
-                </div>
+      {/* ── Film strips ── */}
+      <div className="mt-14 space-y-10 sm:space-y-12">
+        {STRIPS.map((strip, s) => (
+          <div key={s} className={`film-strip ${strip.tilt} -mx-4`}>
+            <div className="film-viewport overflow-hidden">
+              <div className={`film-track ${strip.direction} gap-2 sm:gap-3`} style={{ animationDuration: '70s' }}>
+                {[0, 1].map((dup) =>
+                  strip.photos.map((photo, i) => (
+                    <button
+                      key={`${dup}-${photo.frame}`}
+                      type="button"
+                      tabIndex={dup ? -1 : 0}
+                      aria-hidden={dup ? true : undefined}
+                      onClick={() => setSelected(strip.offset + i)}
+                      className="film-frame group relative flex-shrink-0 w-52 sm:w-72 aspect-[3/2] overflow-hidden bg-[#111] cursor-zoom-in focus:outline-none"
+                      aria-label={`Buka foto ${photo.frame}`}
+                    >
+                      <Image
+                        src={photo.src}
+                        alt=""
+                        fill
+                        sizes="(min-width: 640px) 288px, 208px"
+                        className="object-cover"
+                      />
+                      <span className="film-frame-hl absolute inset-0 pointer-events-none" aria-hidden="true" />
+                      <span className="absolute bottom-1.5 left-2 bg-black/70 px-1.5 py-0.5 font-mono text-[9px] tracking-[0.2em] text-[#F36416]" aria-hidden="true">
+                        MFM {photo.frame}A
+                      </span>
+                    </button>
+                  ))
+                )}
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Row 3: Moves Right */}
-        <div className="relative overflow-hidden py-1">
-          <div className="animate-marquee-right gap-4 px-2 will-change-transform [transform:translateZ(0)]">
-            {row3.map((photo, idx) => (
-              <div
-                key={`r3-${idx}`}
-                onClick={() => setSelectedPhoto(photo)}
-                className="w-72 sm:w-80 h-44 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-white/15 bg-[#181818] cursor-pointer hover:scale-105 hover:border-[#C90A20] transition-all duration-300 shadow-xl group relative"
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.title || 'Mufomic Photo'}
-                  width={320}
-                  height={200}
-                  quality={75}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
-                  <span className="text-[10px] font-mono text-[#C90A20] uppercase font-bold">{photo.category}</span>
-                  <span className="text-xs font-bold text-[#F8F7F2]">{photo.title}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Lightbox Modal on Image Click - No Blackbars */}
-      {selectedPhoto && (
-        <div
-          onClick={() => setSelectedPhoto(null)}
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xl flex items-center justify-center p-3 sm:p-6 transition-all"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative max-w-5xl max-h-[92vh] glass-inspo-card p-2 sm:p-3 rounded-3xl border border-white/20 shadow-2xl flex flex-col items-center"
-          >
-            {/* Top Close Button Floating */}
-            <div className="w-full flex items-center justify-between px-3 py-1.5 border-b border-white/10 mb-2">
-              <span className="text-[11px] sm:text-xs font-mono font-bold text-[#F36416] tracking-wider uppercase">
-                Dokumentasi MUFOMIC
-              </span>
-              <button
-                onClick={() => setSelectedPhoto(null)}
-                aria-label="Tutup"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 text-[#F8F7F2] flex items-center justify-center font-bold text-sm transition-colors cursor-pointer"
-              >
-                ✕
-              </button>
             </div>
+          </div>
+        ))}
+      </div>
 
-            {/* Image snugly displayed with natural aspect ratio - Zero blackbars */}
-            <div className="relative rounded-2xl overflow-hidden flex items-center justify-center max-h-[82vh] max-w-full">
-              <img
-                src={selectedPhoto.src}
-                alt={selectedPhoto.title || 'Dokumentasi MUFOMIC'}
-                className="max-h-[80vh] max-w-[90vw] sm:max-w-4xl w-auto h-auto object-contain rounded-xl block shadow-2xl"
+      {/* ── Lightbox ── */}
+      <dialog
+        ref={dialogRef}
+        onClose={() => setSelected(null)}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) setSelected(null);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowRight') step(1);
+          if (e.key === 'ArrowLeft') step(-1);
+        }}
+        className="event-lightbox m-auto bg-transparent p-0 w-[min(94vw,72rem)] max-w-none overflow-visible"
+      >
+        {selected !== null && (
+          <figure className="relative">
+            <div className="relative w-full aspect-[3/2] max-h-[78vh] bg-[#111] shadow-[10px_10px_0_#C90A20]">
+              <Image
+                key={PHOTOS[selected].src}
+                src={PHOTOS[selected].src}
+                alt={`Dokumentasi MUFOMIC, foto ${PHOTOS[selected].frame}`}
+                fill
+                sizes="94vw"
+                className="object-contain"
               />
             </div>
-          </div>
-        </div>
-      )}
+            <figcaption className="mt-5 flex items-center justify-between gap-4 font-mono text-xs uppercase tracking-[0.2em] text-[#F8F7F2]/70">
+              <button
+                type="button"
+                onClick={() => step(-1)}
+                className="px-4 py-2 border border-[#F8F7F2]/25 hover:bg-[#F8F7F2] hover:text-[#1C1C1C] transition-colors"
+                aria-label="Foto sebelumnya"
+              >
+                ← Prev
+              </button>
+              <span>
+                <span className="text-[#F36416]">{PHOTOS[selected].frame}</span> / {PHOTOS.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => step(1)}
+                className="px-4 py-2 border border-[#F8F7F2]/25 hover:bg-[#F8F7F2] hover:text-[#1C1C1C] transition-colors"
+                aria-label="Foto berikutnya"
+              >
+                Next →
+              </button>
+            </figcaption>
+            <button
+              type="button"
+              onClick={() => setSelected(null)}
+              className="absolute -top-4 -right-2 sm:-right-4 w-10 h-10 flex items-center justify-center bg-[#C90A20] text-[#F8F7F2] font-mono font-bold shadow-[3px_3px_0_#F8F7F2]"
+              aria-label="Tutup"
+            >
+              ✕
+            </button>
+          </figure>
+        )}
+      </dialog>
     </section>
   );
 };

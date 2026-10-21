@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import Badge from '../../ui/Badge';
+import React, { useRef, useState } from 'react';
+import Image from 'next/image';
 
 interface DivisionRole {
   id: string;
@@ -155,13 +155,21 @@ export const AboutDivisionsSection: React.FC = () => {
     },
   ];
 
-  const bandRoles = rolesData.filter((r) => r.category === 'band');
-  const creativeRoles = rolesData.filter((r) => r.category === 'creative');
-
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const currentRole = rolesData[currentIndex];
+  const sides = [
+    { side: 'A', label: 'Band Division', category: 'band' as const, accent: '#5278A2' },
+    { side: 'B', label: 'Creative Division', category: 'creative' as const, accent: '#F36416' },
+  ];
+
+  /* Track code like "A3" / "B1" for a role */
+  const codeFor = (role: DivisionRole) => {
+    const side = role.category === 'band' ? 'A' : 'B';
+    return `${side}${rolesData.filter((r) => r.category === role.category).indexOf(role) + 1}`;
+  };
+  const accentFor = (role: DivisionRole) => (role.category === 'band' ? '#5278A2' : '#F36416');
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? rolesData.length - 1 : prev - 1));
@@ -171,269 +179,152 @@ export const AboutDivisionsSection: React.FC = () => {
     setCurrentIndex((prev) => (prev === rolesData.length - 1 ? 0 : prev + 1));
   };
 
-  const handleSelectRole = (roleId: string) => {
-    const index = rolesData.findIndex((r) => r.id === roleId);
-    if (index !== -1) {
-      setCurrentIndex(index);
+  const handleSelectRole = (index: number) => {
+    setCurrentIndex(index);
+    // On small screens the panel sits above the list; bring it back into view
+    const panel = panelRef.current;
+    if (panel && window.matchMedia('(max-width: 1023px)').matches && panel.getBoundingClientRect().top < 0) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
   return (
-    <section id="about-divisions" className="relative py-20 px-4 sm:px-6 md:px-8 overflow-hidden">
-      {/* Background Layer */}
+    <section id="about-divisions" className="relative py-24 sm:py-28 px-4 sm:px-6 md:px-8 overflow-hidden">
+      {/* ── Background ── */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <img
           src="/images/background/about-division-bg.webp"
-          alt="About Division Background"
-          className="w-full h-full object-cover object-center scale-105 filter brightness-40 contrast-110"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="w-full h-full object-cover object-center grayscale contrast-125 brightness-[0.3]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1C1C1C]/75 via-[#1C1C1C]/65 to-[#1C1C1C] -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1C1C1C] via-[#1C1C1C]/60 to-[#1C1C1C]" />
       </div>
+      <div className="grain-overlay absolute inset-0 -z-10 pointer-events-none" aria-hidden="true" />
 
-      {/* Dynamic Ambient Glow matching active division */}
-      <div
-        className="absolute top-1/3 left-1/3 w-[550px] h-[350px] rounded-full blur-[160px] pointer-events-none -z-10 transition-colors duration-700 opacity-25"
-        style={{
-          backgroundColor: currentRole.category === 'band' ? '#5278A2' : '#F36416',
-        }}
-      />
-
-      <div className="max-w-6xl mx-auto space-y-10 sm:space-y-12">
-        {/* Header Section */}
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <Badge variant="inspo">SEKTOR & DIVISI</Badge>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#F8F7F2] tracking-tight">
-            Divisi <span className="text-[#F36416]">MUFOMIC</span>
-          </h2>
-          <p className="text-[#F8F7F2]/80 text-sm sm:text-base leading-relaxed">
-            Eksplorasi peran musisi dan tim kreatif di balik panggung pertunjukan MUFOMIC.
-          </p>
-        </div>
-
-        {/* 2-COLUMN MODERN LAYOUT (Kiri: Konten Utama, Kanan: Pilihan Divisi - Tinggi Sama / Konsisten) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-
-          {/* LEFT: MAIN SHOWCASE CARD (Clickable to open modal popup, stretches to full height) */}
-          <div className="lg:col-span-7 h-full flex flex-col">
-            <div
-              onClick={() => setIsModalOpen(true)}
-              className="glass-inspo-card p-6 sm:p-8 rounded-3xl border border-white/20 shadow-2xl relative overflow-hidden transition-all duration-300 cursor-pointer group hover:border-white/40 hover:scale-[1.01] hover:shadow-[0_20px_50px_rgba(0,0,0,0.8)] h-full flex flex-col justify-between space-y-5"
-            >
-              {/* Top Accent Gradient Bar */}
-              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${currentRole.gradient}`} />
-
-              {/* Header of Showcase Card */}
-              <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-4">
-                <span
-                  className={`text-xs px-3.5 py-1 rounded-full font-bold uppercase tracking-wider ${
-                    currentRole.category === 'band'
-                      ? 'bg-[#5278A2]/25 text-[#5278A2] border border-[#5278A2]/40'
-                      : 'bg-[#F36416]/25 text-[#F36416] border border-[#F36416]/40'
-                  }`}
-                >
-                  {currentRole.categoryLabel}
-                </span>
-
-                {/* Navigation Arrows + Index Counter */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handlePrev();
-                    }}
-                    aria-label="Divisi Sebelumnya"
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#F36416] text-white flex items-center justify-center font-bold text-sm transition-all hover:scale-110 active:scale-95 cursor-pointer"
-                  >
-                    ❮
-                  </button>
-                  <span className="text-xs text-[#F8F7F2]/60 font-mono font-semibold px-1">
-                    {currentIndex + 1} / {rolesData.length}
-                  </span>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleNext();
-                    }}
-                    aria-label="Divisi Berikutnya"
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#F36416] text-white flex items-center justify-center font-bold text-sm transition-all hover:scale-110 active:scale-95 cursor-pointer"
-                  >
-                    ❯
-                  </button>
-                </div>
-              </div>
-
-              {/* Title & Short Description */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#F8F7F2] tracking-tight group-hover:text-white transition-colors">
-                    {currentRole.title}
-                  </h3>
-                  <span className="text-xs text-white/40 group-hover:text-[#F36416] transition-colors font-semibold flex items-center gap-1">
-                    Detail ↗
-                  </span>
-                </div>
-                <p className="text-sm sm:text-base text-[#F8F7F2]/80 leading-relaxed">
-                  {currentRole.shortDesc}
-                </p>
-              </div>
-
-              {/* Photo Card Container with Hover Indicator */}
-              <div className="relative w-full flex-1 min-h-[250px] sm:min-h-[280px] rounded-2xl overflow-hidden bg-black/60 border border-white/15 shadow-inner">
-                <img
-                  src={currentRole.photoSrc}
-                  alt={currentRole.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-
-                {/* Subtle Hover Overlay Hint */}
-                <div className="absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                  <span className="px-5 py-2.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs sm:text-sm font-bold shadow-xl flex items-center gap-2">
-                    <span>Lihat Detail Lengkap</span>
-                    <span>↗</span>
-                  </span>
-                </div>
-              </div>
-
-            </div>
+      <div className="max-w-6xl mx-auto">
+        {/* ── Header ── */}
+        <header className="event-reveal flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-[#F8F7F2]/15">
+          <div>
+            <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#F36416]">
+              {'//'} Sektor & Divisi
+            </p>
+            <h2 className="mt-3 font-display uppercase leading-[0.85] text-[#F8F7F2] text-[clamp(3rem,10vw,6.5rem)]">
+              Divisi <span className="text-outline">Mufomic</span>
+            </h2>
           </div>
+        </header>
 
-          {/* RIGHT: DIVISION BUTTONS SELECTOR (Equal height to left card, consistent grid) */}
-          <div className="lg:col-span-5 h-full flex flex-col">
-            <div className="glass-inspo-card-subtle p-5 sm:p-6 md:p-7 rounded-3xl border border-white/15 shadow-2xl h-full flex flex-col justify-between space-y-4 sm:space-y-5">
-              
-              {/* Band Division Buttons */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-[#5278A2] tracking-wider uppercase">
-                    BAND DIVISION
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-                  {bandRoles.map((role, idx) => {
-                    const isSelected = currentRole.id === role.id;
-                    // Drummer is the 5th item -> span 2 columns to keep neat symmetry
-                    const isLastOdd = idx === bandRoles.length - 1 && bandRoles.length % 2 !== 0;
-                    return (
-                      <button
-                        key={role.id}
-                        onClick={() => handleSelectRole(role.id)}
-                        className={`w-full h-11 sm:h-12 md:h-[50px] flex items-center justify-center text-center px-3 rounded-xl text-xs sm:text-[13px] font-bold tracking-wider transition-all duration-300 cursor-pointer ${
-                          isLastOdd ? 'col-span-2' : ''
-                        } ${
-                          isSelected
-                            ? 'bg-gradient-to-r from-[#5278A2] to-[#C90A20] text-white shadow-[0_0_20px_rgba(82,120,162,0.6)] border border-white/30 scale-[1.02]'
-                            : 'bg-white/5 hover:bg-white/12 text-[#F8F7F2]/75 hover:text-white border border-white/15 backdrop-blur-md hover:scale-[1.01]'
-                        }`}
-                      >
-                        {role.buttonLabel}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Divider Line */}
-              <div className="border-t border-white/10 my-1" />
-
-              {/* Creative Division Buttons */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-[#F36416] tracking-wider uppercase">
-                    CREATIVE DIVISION
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-                  {creativeRoles.map((role) => {
-                    const isSelected = currentRole.id === role.id;
-                    return (
-                      <button
-                        key={role.id}
-                        onClick={() => handleSelectRole(role.id)}
-                        className={`w-full h-11 sm:h-12 md:h-[50px] flex items-center justify-center text-center px-3 rounded-xl text-xs sm:text-[13px] font-bold tracking-wider transition-all duration-300 cursor-pointer ${
-                          isSelected
-                            ? 'bg-gradient-to-r from-[#C90A20] to-[#F36416] text-white shadow-[0_0_20px_rgba(243,100,22,0.6)] border border-white/30 scale-[1.02]'
-                            : 'bg-white/5 hover:bg-white/12 text-[#F8F7F2]/75 hover:text-white border border-white/15 backdrop-blur-md hover:scale-[1.01]'
-                        }`}
-                      >
-                        {role.buttonLabel}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
-        {/* DETAIL MODAL - Semi-transparent background, Photo First, then Description */}
-        {isModalOpen && (
-          <div
-            onClick={() => setIsModalOpen(false)}
-            className="fixed inset-0 z-50 bg-black/45 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 transition-all"
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-lg w-full glass-inspo-card p-6 sm:p-8 border border-white/20 rounded-3xl shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto"
-            >
-              {/* Modal Header */}
-              <div className="flex items-center justify-between border-b border-white/15 pb-4">
-                <div className="space-y-1">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+          {/* ── Tracklist (Side A / Side B) ── */}
+          <div className="event-reveal lg:col-span-5 order-2 lg:order-1 space-y-10">
+            {sides.map(({ side, label, category, accent }) => (
+              <div key={side}>
+                <h3 className="flex items-center gap-3 font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#F8F7F2]/50 mb-3">
                   <span
-                    className={`text-[10px] sm:text-xs px-3 py-0.5 rounded-full font-bold uppercase tracking-wider ${
-                      currentRole.category === 'band'
-                        ? 'bg-[#5278A2]/30 text-[#5278A2] border border-[#5278A2]/50'
-                        : 'bg-[#F36416]/30 text-[#F36416] border border-[#F36416]/50'
-                    }`}
+                    className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[#1C1C1C]"
+                    style={{ backgroundColor: accent }}
                   >
-                    {currentRole.categoryLabel}
+                    {side}
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-black text-[#F8F7F2]">
-                    {currentRole.title}
-                  </h3>
+                  Side {side} — {label}
+                </h3>
+                <ol className="border-t border-[#F8F7F2]/15">
+                  {rolesData.map((role, index) => {
+                    if (role.category !== category) return null;
+                    const isActive = index === currentIndex;
+                    return (
+                      <li key={role.id}>
+                        <button
+                          type="button"
+                          onClick={() => handleSelectRole(index)}
+                          aria-pressed={isActive}
+                          className={`event-setlist-row group w-full flex items-center gap-4 border-b border-[#F8F7F2]/15 py-3 px-2 text-left cursor-pointer ${isActive ? 'is-active' : ''}`}
+                        >
+                          <span
+                            className={`font-mono text-xs w-6 transition-colors ${isActive ? 'text-[#F8F7F2]' : 'group-hover:text-[#F8F7F2]'}`}
+                            style={isActive ? undefined : { color: accent }}
+                          >
+                            {codeFor(role)}
+                          </span>
+                          <span className={`flex-1 font-display uppercase text-2xl sm:text-3xl text-[#F8F7F2] leading-none transition-transform duration-300 ${isActive ? 'translate-x-2' : 'group-hover:translate-x-2'}`}>
+                            {role.buttonLabel}
+                          </span>
+                          <span className={`font-mono text-xs text-[#F8F7F2] transition-opacity ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`} aria-hidden="true">
+                            {isActive ? '▶' : '→'}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Now playing panel ── */}
+          <div ref={panelRef} className="event-reveal lg:col-span-7 order-1 lg:order-2 lg:sticky lg:top-28 scroll-mt-28">
+            <div className="relative border border-[#F8F7F2]/15 bg-[#141414]/90 shadow-[12px_12px_0_rgba(201,10,32,0.85)]">
+              {/* Control bar */}
+              <div className="flex items-center justify-between gap-3 border-b border-[#F8F7F2]/15 px-5 sm:px-6 py-3 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em]">
+                <span className="flex items-center gap-2 text-[#F8F7F2]/60">
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: accentFor(currentRole) }} />
+                  <span style={{ color: accentFor(currentRole) }}>{codeFor(currentRole)}</span>
+                  <span className="hidden sm:inline">/ {currentRole.categoryLabel}</span>
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    aria-label="Divisi Sebelumnya"
+                    className="w-8 h-8 flex items-center justify-center border border-[#F8F7F2]/25 text-[#F8F7F2] hover:bg-[#F8F7F2] hover:text-[#1C1C1C] transition-colors cursor-pointer"
+                  >
+                    ←
+                  </button>
+                  <span className="text-[#F8F7F2]/60 px-1 tabular-nums">
+                    {String(currentIndex + 1).padStart(2, '0')} / {rolesData.length}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    aria-label="Divisi Berikutnya"
+                    className="w-8 h-8 flex items-center justify-center border border-[#F8F7F2]/25 text-[#F8F7F2] hover:bg-[#F8F7F2] hover:text-[#1C1C1C] transition-colors cursor-pointer"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              {/* Content (re-keyed so it animates on every change) */}
+              <div key={currentRole.id} className="division-swap p-5 sm:p-7 space-y-6" aria-live="polite">
+                <h3 className="font-display uppercase text-[#F8F7F2] leading-[0.9] text-[clamp(2.5rem,7vw,4.5rem)]">
+                  {currentRole.title}
+                </h3>
+
+                <div className="relative aspect-[16/10] bg-black overflow-hidden">
+                  <Image
+                    src={currentRole.photoSrc}
+                    alt={currentRole.title}
+                    fill
+                    sizes="(min-width: 1024px) 600px, 92vw"
+                    className="object-cover"
+                  />
+                  <span className="tape-strip absolute -top-2 left-6 w-20 h-6 -rotate-[6deg]" aria-hidden="true" />
                 </div>
 
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  aria-label="Tutup"
-                  className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-[#F8F7F2] flex items-center justify-center font-bold text-base transition-colors cursor-pointer"
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* 1. Photo First (Visible for all divisions) */}
-              <div className="relative w-full h-52 sm:h-64 rounded-2xl overflow-hidden border border-white/15 shadow-xl bg-black/40">
-                <img
-                  src={currentRole.photoSrc}
-                  alt={currentRole.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* 2. Description Underneath */}
-              <div className="space-y-2">
-                <p className="text-sm sm:text-base text-[#F8F7F2]/90 leading-relaxed font-normal">
-                  {currentRole.fullDesc}
-                </p>
-              </div>
-
-              {/* Modal Footer */}
-              <div className="pt-2 border-t border-white/10 flex items-center justify-end">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-6 py-2 rounded-full bg-white/10 hover:bg-white/20 text-[#F8F7F2] text-sm font-bold transition-all cursor-pointer"
-                >
-                  Tutup
-                </button>
+                <div className="space-y-3">
+                  <p className="text-[#F8F7F2] text-base sm:text-lg font-semibold leading-snug">
+                    {currentRole.shortDesc}
+                  </p>
+                  <p className="text-[#F8F7F2]/65 text-sm sm:text-base leading-relaxed">
+                    {currentRole.fullDesc}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        )}
-
+        </div>
       </div>
     </section>
   );

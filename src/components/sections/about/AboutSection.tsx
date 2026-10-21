@@ -5,7 +5,7 @@ import AboutDivisionsSection from './AboutDivisionsSection';
 
 export const AboutSection: React.FC = () => {
   return (
-    <div className="space-y-16">
+    <div>
       {/* Section 1: Apa itu Mufomic (Tanpa Tombol) */}
       <AboutIntroSection 
         showButton={false} 
