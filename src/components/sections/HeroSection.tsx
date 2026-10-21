@@ -185,11 +185,12 @@ export const HeroSection: React.FC = () => {
         {/* ── Left: poster typography ── */}
         <div className="lg:col-span-7">
           <div className="hero-in hero-in-1 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#F8F7F2]/60">
-            <span className="text-[#F36416]">[ UKM Musik ]</span>
-            <span>Universitas Multimedia Nusantara</span>
+            <span className="text-[#F36416]">[ MUFOMIC ]</span>
+            <span>UKM Musik Universitas Multimedia Nusantara</span>
           </div>
 
           <h1 className="mt-5 font-display uppercase text-[#F8F7F2] leading-[0.9] tracking-[-0.01em] text-[clamp(3.6rem,13vw,8.75rem)]">
+            <span className="sr-only">MUFOMIC — </span>
             <span className="hero-in hero-in-2 block">Multimedia</span>
             <span className="hero-in hero-in-3 flex items-center gap-4 sm:gap-6">
               <span className="text-outline">Face of</span>

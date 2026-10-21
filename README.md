@@ -25,6 +25,7 @@ Website resmi MUFOMIC (Multimedia Face of Music), UKM musik Universitas Multimed
   - [Aksesibilitas](#aksesibilitas)
   - [Yang TIDAK boleh](#yang-tidak-boleh)
 - [Update event (Mufogigs)](#update-event-mufogigs)
+- [SEO](#seo)
 - [Checklist sebelum push](#checklist-sebelum-push)
 
 ## Menjalankan
@@ -54,6 +55,8 @@ src/
     sections/about/      AboutIntroSection, AboutGallerySection, AboutDivisionsSection
     ui/Button.tsx        satu-satunya komponen tombol
   data/navigation.ts     link menu & sosial media
+  data/event.ts          data event Mufogigs (tampilan + SEO)
+  lib/site.ts            domain, judul, deskripsi untuk SEO
 public/images/           logo, background, foto (about-photos), flyer (mufogigs)
 ```
 
@@ -296,13 +299,30 @@ Props lain (`onClick`, `disabled`, `aria-*`, `style`, dll.) diteruskan ke elemen
 
 ## Update event (Mufogigs)
 
-Data event ada di bagian atas [`src/components/sections/RsvpSection.tsx`](src/components/sections/RsvpSection.tsx):
+Data event ada di [`src/data/event.ts`](src/data/event.ts). Data ini dipakai untuk tampilan section Event sekaligus untuk data SEO di halaman /rsvp:
 
 - `EVENT`: judul, tanggal, waktu, lokasi, flyer, dan line-up.
+- `startDate` / `endDate`: tanggal dalam format mesin (`2026-10-03T18:00:00+07:00`). Wajib diganti juga supaya Google menampilkan tanggal yang benar.
+
+Pengaturan tombol ada di bagian atas [`src/components/sections/RsvpSection.tsx`](src/components/sections/RsvpSection.tsx):
+
 - `isTicketAvailable`: `true` untuk menampilkan tombol **RSVP Sekarang** (link `gformUrl`). Tombol Instagram otomatis jadi `outline`.
 - `showMapsButton`: `true` untuk menampilkan tombol **Buka di Maps** (link `googleMapsUrl`). Saat ini `false` karena event sudah selesai.
-- Ganti juga label "Mufogigs Vol. 10" di `Navbar.tsx`, `Footer.tsx`, `HeroSection.tsx`, dan teks marquee di Hero (`MARQUEE_ITEMS`).
-- Simpan flyer baru di `public/images/mufogigs/` dalam format `.webp`.
+
+Ganti juga label "Mufogigs Vol. 10" di `Navbar.tsx`, `Footer.tsx`, `HeroSection.tsx`, dan teks marquee di Hero (`MARQUEE_ITEMS`). Simpan flyer baru di `public/images/mufogigs/` dalam format `.webp`.
+
+## SEO
+
+- **Konfigurasi utama:** semua ada di [`src/lib/site.ts`](src/lib/site.ts): domain, judul, deskripsi, dan keyword.
+- **Metadata halaman:** metadata dasar ada di [`src/app/layout.tsx`](src/app/layout.tsx). Setiap halaman di `src/app/(pages)/*/page.tsx` mengekspor `metadata` sendiri, berisi `title`, `description`, dan `alternates.canonical`.
+- **File otomatis:** `robots.txt` dan `sitemap.xml` dibuat oleh `src/app/robots.ts` dan `src/app/sitemap.ts`. **Kalau menambah halaman baru, daftarkan juga di `sitemap.ts`.**
+- **Structured data (JSON-LD):** data Organization + WebSite ada di `layout.tsx`, dan data Event ada di `rsvp/page.tsx`.
+- **Ikon dan gambar share:** `src/app/icon.png`, `apple-icon.png`, `favicon.ico`, `opengraph-image.png`, dan `twitter-image.png`.
+- **Satu `<h1>` per halaman:**
+  - Home: judul Hero.
+  - /about: logotype di intro (`asPageHeading`).
+  - /rsvp: judul event (`asPageHeading`).
+- **Verifikasi Google Search Console:** isi environment variable `GOOGLE_SITE_VERIFICATION` di Vercel dengan kode dari Search Console (metode "HTML tag", ambil nilai `content`-nya saja), lalu redeploy.
 
 ## Checklist sebelum push
 

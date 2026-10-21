@@ -8,7 +8,8 @@ export const AboutSection: React.FC = () => {
     <div>
       {/* Section 1: Apa itu Mufomic (Tanpa Tombol) */}
       <AboutIntroSection 
-        showButton={false} 
+        showButton={false}
+        asPageHeading
         bgImage="/images/background/about-division-bg.webp" 
       />
 

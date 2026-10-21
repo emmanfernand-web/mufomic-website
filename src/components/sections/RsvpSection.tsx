@@ -2,22 +2,7 @@
 
 import React, { useRef } from 'react';
 import Button from '../ui/Button';
-
-const EVENT = {
-  edition: '010',
-  title: 'Mufogigs',
-  subtitle: 'Vol. 10 : Warm Up',
-  status: 'Previous Event',
-  blurb:
-    'Get ready to warm up your night with an unforgettable music experience. Satu malam, enam penampil, dan satu panggung untuk merayakan musik kampus.',
-  date: 'Sabtu, 3 Oktober 2026',
-  time: '18.00 WIB – Selesai',
-  venue: 'Bagi Kopi Jombang',
-  area: 'Ciputat Jombang',
-  flyer: '/images/mufogigs/vol10.webp',
-  headliners: ['J.O.Y!', 'INDIGOS', 'ECHOVEIL'],
-  specials: ['Nusa Surf Club', 'Tatlo', 'The Sabili'],
-};
+import { EVENT } from '../../data/event';
 
 const InstagramIcon = () => (
   <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -32,7 +17,13 @@ const PinIcon = () => (
   </svg>
 );
 
-export const RsvpSection: React.FC = () => {
+interface RsvpSectionProps {
+  /** Render the title as the page's <h1> (on /rsvp); defaults to <h2> */
+  asPageHeading?: boolean;
+}
+
+export const RsvpSection: React.FC<RsvpSectionProps> = ({ asPageHeading = false }) => {
+  const Heading = asPageHeading ? 'h1' : 'h2';
   // Config for Google Form & Google Maps URL
   const gformUrl = "https://forms.gle/mufomic-rsvp";
   const googleMapsUrl = "https://maps.app.goo.gl/KXsWES47wX4h3KqL9";
@@ -63,10 +54,10 @@ export const RsvpSection: React.FC = () => {
             <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#F36416]">
               {'//'} Event Archive — No. {EVENT.edition}
             </p>
-            <h2 className="mt-3 font-display uppercase leading-[0.85] text-[#F8F7F2] text-[clamp(3.5rem,12vw,8rem)]">
+            <Heading className="mt-3 font-display uppercase leading-[0.85] text-[#F8F7F2] text-[clamp(3.5rem,12vw,8rem)]">
               {EVENT.title}
               <span className="block text-outline text-[0.55em] mt-2">{EVENT.subtitle}</span>
-            </h2>
+            </Heading>
           </div>
           <span className="event-stamp self-start sm:self-end inline-block font-mono font-bold uppercase text-xs sm:text-sm tracking-[0.2em] text-[#C90A20] px-4 py-2">
             {EVENT.status}
