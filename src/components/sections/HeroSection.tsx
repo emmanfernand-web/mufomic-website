@@ -8,7 +8,7 @@ const STATS = [
   { value: '100+', label: 'Band Terbentuk' },
 ];
 
-const MARQUEE_ITEMS = ['Mufogigs Vol. 10', 'Live Music', 'Band Format', 'UMN', 'Est. 2013', 'Multimedia Face of Music'];
+const MARQUEE_ITEMS = ['Mufogigs', 'Live Music', 'UMN', 'Est. 2013', 'Multimedia Face of Music'];
 
 /* Base spin speed of the record, in degrees per millisecond (~33⅓ rpm feel) */
 const BASE_SPEED = 0.12;
